@@ -35,3 +35,5 @@ the array returned will be:
 
 ## Usage
 
+- Embed [getStyleImportUrls](src/get-style-import-urls.js) in the browser window
+- Run `getStyleImportUrls();`
