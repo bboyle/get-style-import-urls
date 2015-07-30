@@ -21,6 +21,7 @@
 
 	<style>
 	@import url("http://www.example.com/b.css");
+	@import url("http://www.example.com/c.css?foo");
 	</style>
 
 	<style>
@@ -61,6 +62,7 @@ var expected = [
 	base.href + 'quote\'s-styles.css',
 	a.href, // normalise space encoding
 	'http://www.example.com/b.css',
+	'http://www.example.com/c.css?foo',
 	base.href + 'fineprint.css',
 	base.href + 'bluish.css',
 	base.href + 'custom.css',
