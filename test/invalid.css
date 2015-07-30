@@ -1,0 +1,7 @@
+/* this style should be ignored in test.html
+   because the @import for this file is placed
+   in an invalid location */
+
+body {
+	color: red;
+}

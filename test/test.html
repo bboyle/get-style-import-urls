@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Test - getStyleImportUrls()</title>
+
+	<style>
+	@import url("http://www.example.com/a.css");
+	@import url(a.css);
+	@import url( 'foo/bar.css' );
+	@import /*comment*/'comment.css';
+	@import "quote's-styles.css";
+	@import "space styles.css";
+
+	body {
+		background: url(foo.png);
+	}
+
+	@import url(ignored.css);
+	</style>
+
+	<style>
+	@import url("http://www.example.com/b.css");
+	</style>
+
+	<style>
+	@import url("fineprint.css") print;
+	@import url("bluish.css") projection, tv;
+	@import 'custom.css';
+	@import url("chrome://communicator/skin/");
+	@import
+		"common.css"
+		screen,
+		projection;
+	@import url('landscape.css') screen and (orientation:landscape);
+	</style>
+
+	<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.18.0.css">
+	<script src="http://code.jquery.com/qunit/qunit-1.18.0.js"></script>
+
+</head>
+<body>
+
+	<h1>Test - getStyleImportUrls()</h1>
+
+	<div id="qunit"></div>
+
+
+	<script src="../src/get-style-import-urls.js"></script>
+<script>
+var base = document.createElement( 'a' );
+base.href = './';
+var a = document.createElement( 'a' );
+a.href = base.href + 'space styles.css';
+
+var expected = [
+	'http://www.example.com/a.css',
+	base.href + 'a.css',
+	base.href + 'foo/bar.css',
+	base.href + 'comment.css',
+	base.href + 'quote\'s-styles.css',
+	a.href, // normalise space encoding
+	'http://www.example.com/b.css',
+	base.href + 'fineprint.css',
+	base.href + 'bluish.css',
+	base.href + 'custom.css',
+	'chrome://communicator/skin/',
+	base.href + 'common.css',
+	base.href + 'landscape.css'
+];
+
+test( 'extract URLs', expected.length + 1, function() {
+
+	var urls = getStyleImportUrls();
+
+	strictEqual( urls.length, expected.length, 'found correct number of URLs' );
+	for ( var i = 0; i < expected.length; i++ ) {
+		strictEqual( urls[ i ], expected[ i ], 'matched ' + expected[ i ] );
+	}
+});
+</script>
+
+
+</body>
+</html>
